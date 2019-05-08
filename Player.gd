@@ -33,14 +33,25 @@ func _process(delta):
 	$AnimatedSprite.position.x = clamp($AnimatedSprite.position.x,0,screen_size.x)
 	$AnimatedSprite.position.y = clamp($AnimatedSprite.position.y,0,screen_size.y)
 	
+	#Diagonal Movement
+#	if velocity.x > 0 && velocity.y > 0:
+#		$AnimatedSprite.set_rotation(PI/4)
+#	if velocity.x > 0 && velocity.y < 0:
+#		$AnimatedSprite.set_rotation(-PI/4)
+#	if velocity.x < 0 && velocity.y > 0:
+#		$AnimatedSprite.set_rotation((3*PI)/4)
+#	if velocity.x < 0 && velocity.y < 0:
+#		$AnimatedSprite.set_rotation(-(3*PI)/4)
+	
+	#Vert/Horz Movement
 	if velocity.x > 0:
 		$AnimatedSprite.set_rotation(PI/2)
 	if velocity.x < 0:
 		$AnimatedSprite.set_rotation(-PI/2)
 	if velocity.y > 0:
-		$AnimatedSprite.flip_v = true
-	else:
-		$AnimatedSprite.flip_v = false
+		$AnimatedSprite.set_rotation(-PI)
+	if velocity.y < 0:
+		$AnimatedSprite.set_rotation(0)
 		
 #	if (Input.is_action_just_pressed("Debug") && debug_panel== false):
 #		$Label.show()
