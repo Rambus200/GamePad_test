@@ -1,5 +1,6 @@
 
 extends Area2D
+signal hit
 
 export var speed = 400 
 export var angle_rate = 0.1
@@ -9,10 +10,9 @@ var prev_rotation = 0.0
 
 # Initialization
 func _ready():
-	
+	hide()
 	screen_size = get_viewport_rect().size
 	
-
 #Repeat code
 func _process(delta):
 
@@ -54,10 +54,9 @@ func set_animation_position(velocity,delta):
 	$Particles2D.position.y = ($AnimatedSprite.position.y)
 	$Particles2D.local_coords = true
 	
-	
 func get_animation_position():
 	return $AnimatedSprite.position
-
+	
 	#Diagonal Movement
 func set_movement(velocity):
 	
@@ -87,20 +86,14 @@ func set_movement(velocity):
 	if velocity.x < 0 && velocity.y < 0:
 		$AnimatedSprite.set_rotation(-PI/4)
 		$Particles2D.set_rotation(-PI/4)
-		
-#	if (Input.is_action_just_pressed("Debug") && debug_panel== false):
-#		$Label.show()
-#		$Label.text = Engine.get_frames_per_second()
-#	else:
-#		$Label.hide()
-
-#func set_movement(velocity,prev_rotation):
-#
-#	if velocity.x > 0:
-#		prev_rotation = $AnimatedSprite.rotate(prev_rotation + angle_rate)
-#	if velocity.y > 0:
-#		prev_rotation = $AnimatedSprite.rotate(prev_rotation - angle_rate)
-#	if velocity.x < 0:
-#		prev_rotation = $AnimatedSprite.rotate(prev_rotation - angle_rate)
-#	if velocity.y < 0:
-#		prev_rotation = $AnimatedSprite.rotate(prev_rotation + angle_rate)
+	
+func _on_Player_body_entered(body):
+	hide()
+	emit_signal("hit")
+	$CollisionShape2D.call_deferred("set_disabled",true)
+	
+func start(pos):
+    position = pos
+    show()
+    $CollisionShape2D.disabled = false
+	

@@ -1,0 +1,125 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Resources/PNG/Meteors/meteorGrey_big1.png" type="Texture" id=1]
+[ext_resource path="res://Resources/PNG/Meteors/meteorGrey_big2.png" type="Texture" id=2]
+[ext_resource path="res://Resources/PNG/Meteors/meteorBrown_big1.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends RigidBody2D
+
+export var min_speed = 150
+export var max_speed = 300
+
+func _ready():
+	$\".\".gravity_scale = 0
+	var size = randi() % 2
+	hide()
+	pass
+
+func size_sel(size):
+	if size == 0:
+		$Astroid_small.show()
+		$Collision_small.show()
+	if size == 1:
+		$Astroid_medium.show()
+		$Collision_medium.show()
+	if size == 2:
+		$Astroid_medium.show()
+		$Collision_medium.show()
+	pass
+
+func _on_VisibilityNotifier2D_screen_exited():
+	queue_free()
+	pass # replace with function body
+"
+
+[sub_resource type="CircleShape2D" id=2]
+
+custom_solver_bias = 0.0
+radius = 10.0
+
+[sub_resource type="CapsuleShape2D" id=3]
+
+custom_solver_bias = 0.0
+radius = 10.0
+height = 2.09518
+
+[sub_resource type="CircleShape2D" id=4]
+
+custom_solver_bias = 0.0
+radius = 10.0
+
+[node name="Astroids" type="RigidBody2D" index="0"]
+
+input_pickable = false
+collision_layer = 0
+collision_mask = 1
+mode = 0
+mass = 1.0
+friction = 1.0
+bounce = 0.0
+gravity_scale = 1.0
+custom_integrator = false
+continuous_cd = 0
+contacts_reported = 0
+contact_monitor = false
+sleeping = false
+can_sleep = true
+linear_velocity = Vector2( 0, 0 )
+linear_damp = -1.0
+angular_velocity = 0.0
+angular_damp = -1.0
+script = SubResource( 1 )
+_sections_unfolded = [ "Applied Forces" ]
+min_speed = 150
+max_speed = 300
+
+[node name="Astroid_small" type="Sprite" parent="." index="0"]
+
+texture = ExtResource( 1 )
+_sections_unfolded = [ "Animation" ]
+
+[node name="Astroid_medium" type="Sprite" parent="." index="1"]
+
+visible = false
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Animation" ]
+
+[node name="Astroid_large" type="Sprite" parent="." index="2"]
+
+visible = false
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Animation", "Transform" ]
+
+[node name="Collision_small" type="CollisionShape2D" parent="." index="3"]
+
+scale = Vector2( 5, 5 )
+shape = SubResource( 2 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Collision_medium" type="CollisionShape2D" parent="." index="4"]
+
+visible = false
+rotation = 0.785398
+scale = Vector2( 5, 6 )
+shape = SubResource( 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Collision_large" type="CollisionShape2D" parent="." index="5"]
+
+visible = false
+rotation = 0.785398
+scale = Vector2( 7, 7 )
+shape = SubResource( 4 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="." index="6"]
+
+visible = false
+rect = Rect2( -10, -10, 20, 20 )
+
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+
+
