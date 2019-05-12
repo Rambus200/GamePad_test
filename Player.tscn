@@ -70,18 +70,18 @@ flags = 4
 width = 2048
 curve = SubResource( 5 )
 
-[sub_resource type="Gradient" id=8]
+[sub_resource type="Gradient" id=7]
 
 offsets = PoolRealArray( 0, 0.189349, 1 )
 colors = PoolColorArray( 0, 0, 0, 1, 0.992188, 0.372373, 0.100769, 1, 1, 1, 1, 1 )
 
-[sub_resource type="GradientTexture" id=9]
+[sub_resource type="GradientTexture" id=8]
 
 flags = 4
-gradient = SubResource( 8 )
+gradient = SubResource( 7 )
 width = 2048
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="ParticlesMaterial" id=9]
 
 render_priority = 0
 trail_divisor = 1
@@ -111,7 +111,7 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-color_ramp = SubResource( 9 )
+color_ramp = SubResource( 8 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -121,7 +121,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Color", "Gravity", "Initial Velocity", "Spread" ]
 
-[node name="Player" type="Area2D"]
+[node name="Player" type="Area2D" index="0"]
 
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -200,7 +200,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 7 )
+process_material = SubResource( 9 )
 texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
