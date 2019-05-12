@@ -63,7 +63,7 @@ _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, -502, -512, 0, 0, 0, 0, 508, -512, 0, 0, 0, 0, 508, 88 )
 }
 
-[node name="Main" type="Node" index="0"]
+[node name="Main" type="Node"]
 
 script = SubResource( 1 )
 Astroids = ExtResource( 1 )
@@ -136,8 +136,6 @@ loop = true
 lookahead = 4.0
 
 [node name="HUD" parent="." index="7" instance=ExtResource( 4 )]
-
-[connection signal="exit_key" from="Player" to="." method="exit_game"]
 
 [connection signal="hit" from="Player" to="." method="_on_Player_Hit"]
 

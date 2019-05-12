@@ -4,11 +4,12 @@
 [ext_resource path="res://Resources/Bonus/kenvector_future_thin.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Resources/PNG/UI/buttonGreen.png" type="Texture" id=3]
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=1]
 
 script/source = "extends CanvasLayer
 
 signal start
+signal exit
 
 func _ready():
 	$\"Message Container/Score\".hide()
@@ -19,7 +20,7 @@ func Show_message(text):
 	$\"Message Container/Timer\".start()
 
 func game_over():
-	show_message(\"Game Over\")
+	Show_message(\"Game Over\")
 	#yield selects object and replaces signal of object 
 	yield($\"Message Container/Timer\",\"timeout\")
 	$\"Message Container/Message\".text = \"Astrod!\"
@@ -27,6 +28,7 @@ func game_over():
 	yield(get_tree().create_timer(3), 'timeout')
 	$\"Button Container/Start_Continue\".show()
 	$\"Button Container/Exit\".show()
+	
 
 func update_score(score):
 	$\"Message Container/Score\".text = String(score)
@@ -37,11 +39,14 @@ func _on_Timer_timeout():
 func _on_Start_Continue_pressed():
 	$\"Button Container/Start_Continue\".hide()
 	$\"Button Container/Exit\".hide()
+	$\"Message Container/Score\".show()
 	emit_signal(\"start\")
 	
+func _on_Exit_pressed():
+	emit_signal(\"exit\")
 "
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=2]
 
 size = 48
 use_mipmaps = false
@@ -49,7 +54,7 @@ use_filter = false
 font_data = ExtResource( 1 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=3]
 
 size = 48
 use_mipmaps = false
@@ -57,7 +62,7 @@ use_filter = false
 font_data = ExtResource( 2 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=4]
 
 size = 24
 use_mipmaps = false
@@ -65,7 +70,7 @@ use_filter = false
 font_data = ExtResource( 2 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=5]
 
 size = 24
 use_mipmaps = false
@@ -73,14 +78,14 @@ use_filter = false
 font_data = ExtResource( 2 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[node name="HUD" type="CanvasLayer" index="0"]
+[node name="HUD" type="CanvasLayer"]
 
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-script = SubResource( 4 )
+script = SubResource( 1 )
 
 [node name="Message Container" type="VBoxContainer" parent="." index="0"]
 
@@ -115,7 +120,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "0"
 align = 1
 valign = 1
@@ -141,7 +146,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 3 )
 text = "Astrod!"
 align = 1
 valign = 1
@@ -211,7 +216,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -237,7 +242,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 5 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -250,5 +255,7 @@ _sections_unfolded = [ "custom_fonts" ]
 [connection signal="timeout" from="Message Container/Timer" to="." method="_on_Timer_timeout"]
 
 [connection signal="pressed" from="Button Container/Start_Continue" to="." method="_on_Start_Continue_pressed"]
+
+[connection signal="pressed" from="Button Container/Exit" to="." method="_on_Exit_pressed"]
 
 

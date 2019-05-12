@@ -13,19 +13,26 @@ export var max_speed = 300
 
 func _ready():
 	$\".\".gravity_scale = 0
-	var size = randi() % 2
-	hide()
+	var size = randi() % 3
+	$Astroid_large.hide()
+	$Astroid_medium.hide()
+	$Astroid_small.hide()
+	$Collision_large.disabled = true
+	$Collision_medium.disabled = true
+	$Collision_small.disabled = true
+	#Generate Astroid
+	size_sel(size)
 	
 func size_sel(size):
 	if size == 0:
 		$Astroid_small.show()
-		$Collision_small.show()
+		$Collision_small.disabled = false
 	if size == 1:
 		$Astroid_medium.show()
-		$Collision_medium.show()
+		$Collision_medium.disabled = false
 	if size == 2:
-		$Astroid_medium.show()
-		$Collision_medium.show()
+		$Astroid_large.show()
+		$Collision_large.disabled = false
 	
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
@@ -93,6 +100,7 @@ _sections_unfolded = [ "Animation", "Transform" ]
 
 [node name="Collision_small" type="CollisionShape2D" parent="." index="3"]
 
+visible = false
 scale = Vector2( 5, 5 )
 shape = SubResource( 2 )
 _sections_unfolded = [ "Transform" ]
@@ -107,7 +115,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Collision_large" type="CollisionShape2D" parent="." index="5"]
 
-visible = false
 rotation = 0.785398
 scale = Vector2( 7, 7 )
 shape = SubResource( 4 )
@@ -115,7 +122,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="." index="6"]
 
-visible = false
 rect = Rect2( -10, -10, 20, 20 )
 
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
